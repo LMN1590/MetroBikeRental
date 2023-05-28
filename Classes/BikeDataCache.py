@@ -5,13 +5,6 @@ import requests
 from Stations import Stations
 
 class BikeDataCache:
-    #stations
-    #time
-    #timeLimit
-
-    #checkValid
-    #update
-    #getNewData
     def __init__(self, timeLimit, testBool = False, url = "https://bikeshare.metro.net/stations/json/") -> None:
         self.timeLimit=timeLimit
         self.testBool=testBool
@@ -36,28 +29,15 @@ class BikeDataCache:
     
     def createStationsList(self,dictStations):
         return [Stations(raw) for raw in dictStations['features']]
-    
 
-    def debug(self):
-        print(self.timeLimit)
-        print(self.time)
-        for station in self.stations[:5]:
-            station.debug()
+
+
 
     def checkValid(self):
         curTime = datetime.datetime.today()
         
         diffTime = (curTime-self.time).total_seconds()
-        print(diffTime)
         return diffTime < 10
-    
-
-    def update(self):
-        if(self.checkValid()):
-            return
-        else:
-            self.getNewData()
-            print("Changed")
             
     def getNewData(self):
         dictStations = self.getData()
@@ -68,4 +48,8 @@ class BikeDataCache:
 
     
 
-    
+    def debug(self):
+        print(self.timeLimit)
+        print(self.time)
+        for station in self.stations[:5]:
+            station.debug()

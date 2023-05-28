@@ -1,21 +1,15 @@
-import sys
-sys.path.insert(1, './Global')
-sys.path.insert(2, './Classes')
+from typing import Union
 
-import time
+from fastapi import FastAPI
 
-from reqType import requestType
-from Request import Request
-from BikeDataCache import BikeDataCache
+app = FastAPI()
 
-cache = BikeDataCache(5)
-cache.debug()
 
-time.sleep(2)
-cache.update()
-cache.debug()
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
-time.sleep(15)
-cache.update()
-cache.debug()
 
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
