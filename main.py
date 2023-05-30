@@ -23,8 +23,9 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
+#/route/?startLat=34&startLong=-118&endLat=34.2&endLong=-118.5&slots=10
 @app.get("/route/")
-async def routing(startLat:float, startLong:float, endLat:float, endLong:float):
+async def routing(startLat:float, startLong:float, endLat:float, endLong:float, slots:int):
     startLoc = {
         'lat': startLat,
         'long': startLong
@@ -35,31 +36,32 @@ async def routing(startLat:float, startLong:float, endLat:float, endLong:float):
         'long': endLong
     }
     
-    req = RoutingRequest(startLoc,endLoc)
+    req = RoutingRequest(startLoc,endLoc,slots)
     predictions = app.bank.predict(req)
 
     locs = [{
         "lat": station.coords['lat'],
         "long": station.coords['long'],
-    } for station in predictions.values()]
+    } for station in predictions['data'].values()]
 
     url = "https://www.google.com/maps/dir"
 
     for coords in locs:
         url = f"{url}/{coords['lat']}+{coords['long']}"
-
+    url = url + "/data=!3m1!4b1!4m10!4m9!1m3!2m2!1d-118!2d34!1m3!2m2!1d-118.5!2d34.2!3e2"
     return {
-        "res": url
+        'status': predictions['status'],
+        "data": url
     }
 
 
 
-#find/?reqType=1&lat=-100&long=2&k=10
+#find/?reqType=1&lat=-100&long=2&k=10&slots=1
 @app.get("/find/")
-async def findStations(reqType:int, lat:float, long:float, k:int=10):
+async def findStations(reqType:int, lat:float, long:float, slots:int, k:int=10):
     type = requestType[reqType]
-    req = Request(lat,long,type)
+    req = Request(lat,long,type,slots,k)
 
-    return {
-        "res": app.bank.predict(req)
-    }
+    predictions = app.bank.predict(req)
+
+    return predictions

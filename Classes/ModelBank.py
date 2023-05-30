@@ -6,14 +6,14 @@ class ModelBank:
     #predict
     def __init__(self) -> None:
         self.modelsList={
-            "renting": Model("renting", lambda station:station.utilAvailable['bikesAvailable'] > 0),
-            "docking": Model("docking", lambda station:station.utilAvailable['docksAvailable'] > 0)
+            "renting": Model("renting"),
+            "docking": Model("docking")
         }
     
     def predict(self,req):
         type = req.reqType
         if(type == 'renting' or type == 'docking'):
-            res = self.modelsList[type].processReq(req,10)
+            res = self.modelsList[type].processReq(req)
 
         elif(type == 'routing'):
             res = self.routing(req)
@@ -25,11 +25,24 @@ class ModelBank:
 
         startStation = self.modelsList[startLoc.reqType].processReq(startLoc)
         endStation = self.modelsList[endLoc.reqType].processReq(endLoc)
+        if(startStation['status'] and endStation['status'] and not compareLoc(startStation['data'][0],endStation['data'][0])):
+            return {
+                "status": True,
+                "data":{
+                    'startLoc': startLoc,
+                    'startStation': startStation['data'][0],
+                    'endStation': endStation['data'][0],
+                    'endLoc': endLoc
+                }
+            }
+        else:
+            return {
+                "status": False,
+                "data": {
+                    'startLoc': startLoc,
+                    'endLoc': endLoc
+                }
+            }
 
-        return {
-            'startLoc': startLoc,
-            'startStation': startStation[0],
-            'endStation': endStation[0],
-            'endLoc': endLoc
-        }
-        
+def compareLoc(start,end):
+    return start.coords['lat'] == end.coords['lat'] and start.coords['long'] == end.coords['long']
