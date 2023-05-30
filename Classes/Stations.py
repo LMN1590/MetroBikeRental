@@ -5,8 +5,8 @@ class Stations:
     def __init__(self,raw) -> None:
         rawCoords = raw['geometry']['coordinates']
         self.coords = {
-            'lat': rawCoords[0],
-            'long': rawCoords[1]
+            'lat': rawCoords[1],
+            'long': rawCoords[0]
         }
 
         rawProperty = raw['properties']

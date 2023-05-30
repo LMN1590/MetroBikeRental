@@ -1,1 +1,1 @@
-requestType=['renting','docking']
+requestType=['renting','docking','routing']

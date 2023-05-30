@@ -1,10 +1,22 @@
-import numpy as np
-from sklearn.neighbors import NearestNeighbors
+import sys
+sys.path.insert(1, './Classes')
+sys.path.insert(2, './Global')
 
-samples = [[100,0]]
-model=NearestNeighbors(n_neighbors=2)
-model.fit(samples)
+from reqType import requestType
+from ModelBank import ModelBank
+from Request import Request
+from RoutingReq import RoutingRequest
 
-samples2 = [[0,2],[1,0],[0,1]]
-model.fit(samples2)
-print(model.kneighbors([[100,1]],n_neighbors=1))
+bank = ModelBank()
+testReq = Request(-118.48155,33.99556,'docking')
+
+startLoc = {
+    'lat':-118.48155,  
+    'long': 33.99556
+}
+endLoc = {
+    'lat':-118.27917,
+    'long':34.02371
+}
+testRouting = RoutingRequest(startLoc,endLoc)
+print(bank.predict(testRouting))

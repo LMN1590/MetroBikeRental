@@ -37,7 +37,7 @@ class BikeDataCache:
         curTime = datetime.datetime.today()
         
         diffTime = (curTime-self.time).total_seconds()
-        return diffTime < 10
+        return diffTime < self.timeLimit
             
     def getNewData(self):
         dictStations = self.getData()
