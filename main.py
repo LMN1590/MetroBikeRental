@@ -26,33 +26,43 @@ def read_item(item_id: int, q: Union[str, None] = None):
 #/route/?startLat=34&startLong=-118&endLat=34.2&endLong=-118.5&slots=10
 @app.get("/route/")
 async def routing(startLat:float, startLong:float, endLat:float, endLong:float, slots:int):
+    req = createRoutingReq(startLat,startLong,endLat,endLong,slots)
+    predictions = app.bank.predict(req)
+    locs = outputFormat(predictions)
+    url = urlFormatting(locs)
+    return {
+        'status': predictions['status'],
+        "data": url
+    }
+
+def createRoutingReq(startLat:float, startLong:float, endLat:float, endLong:float, slots:int):
     startLoc = {
         'lat': startLat,
         'long': startLong
     }
-
     endLoc = {
         'lat': endLat,
         'long': endLong
     }
-    
     req = RoutingRequest(startLoc,endLoc,slots)
-    predictions = app.bank.predict(req)
+    return req
 
+def outputFormat(predictions):
     locs = [{
         "lat": station.coords['lat'],
         "long": station.coords['long'],
     } for station in predictions['data'].values()]
+    return locs
 
+def urlFormatting(locs):
     url = "https://www.google.com/maps/dir"
 
     for coords in locs:
         url = f"{url}/{coords['lat']}+{coords['long']}"
     url = url + "/data=!3m1!4b1!4m10!4m9!1m3!2m2!1d-118!2d34!1m3!2m2!1d-118.5!2d34.2!3e2"
-    return {
-        'status': predictions['status'],
-        "data": url
-    }
+
+    return url
+
 
 
 
