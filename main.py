@@ -66,7 +66,7 @@ def urlFormatting(locs):
 
 
 
-#find/?reqType=1&lat=-100&long=2&k=10&slots=1
+#http://127.0.0.1:8000/find/?reqType=1&lat=33&long=-119&k=5&slots=7
 @app.get("/find/")
 async def findStations(reqType:int, lat:float, long:float, slots:int, k:int=10):
     type = requestType[reqType]

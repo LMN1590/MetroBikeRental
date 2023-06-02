@@ -1,6 +1,7 @@
 import json
 import datetime
 import requests
+import pandas as pd
 
 from Stations import Stations
 
@@ -19,9 +20,12 @@ class BikeDataCache:
             return self.getDataLocal()
         else:
             return self.getDataOnline()
+        
     def getDataLocal(self):
         file = open('./Sample/data.json')
         return json.load(file)
+    
+
     def getDataOnline(self):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'}
         getResult = requests.get(self.url, headers=headers).text
@@ -46,6 +50,16 @@ class BikeDataCache:
         self.time = datetime.datetime.today()
 
 
+    def to_panda(self):
+        data = [[
+            station.coords['lat'], station.coords['long'],
+            station.utilAvailable['bikesAvailable'],
+            station.utilAvailable['docksAvailable'],
+            station.name
+        ] for station in self.stations]
+
+        df = pd.DataFrame(data, columns=['Latitude', 'Longitude', 'Bikes', 'Docks', 'Name'])
+        return df
     
 
     def debug(self):

@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 from BikeDataCache import BikeDataCache
 
 class Model:
-    stationsRaw = BikeDataCache(300,True)
+    stationsRaw = BikeDataCache(300)
     _modelsList = []
     #validity
     #validStations
