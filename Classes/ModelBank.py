@@ -1,5 +1,5 @@
 from Model import Model
-
+from Point2Point import Point2Point
 class ModelBank:
     #modelsList
 
@@ -24,14 +24,17 @@ class ModelBank:
         startLoc, endLoc = routeReq.locations.values()
 
         startStation = self.modelsList[startLoc.reqType].processReq(startLoc)
-        endStation = self.modelsList[endLoc.reqType].processReq(endLoc)
+        endStation = self.modelsList[endLoc.reqType].processReq(endLoc, arrivalBool=True)
         if(startStation['status'] and endStation['status'] and not compareLoc(startStation['data'][0],endStation['data'][0])):
+            startStation = startStation['data'][0]
+            endStation = endStation['data'][0]
             return {
                 "status": True,
                 "data":{
                     'startLoc': startLoc,
-                    'startStation': startStation['data'][0],
-                    'endStation': endStation['data'][0],
+                    'startStation': startStation,
+                    'routing': Point2Point.findRoute(startStation, endStation),
+                    'endStation': endStation,
                     'endLoc': endLoc
                 }
             }
@@ -40,6 +43,7 @@ class ModelBank:
                 "status": False,
                 "data": {
                     'startLoc': startLoc,
+                    'routing': Point2Point.findRoute(startLoc, endLoc),
                     'endLoc': endLoc
                 }
             }

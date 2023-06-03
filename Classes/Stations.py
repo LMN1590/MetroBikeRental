@@ -1,7 +1,11 @@
 class Stations:
     #coords
     #property
-
+    @staticmethod
+    def getTime(station):
+        return station.time
+    
+    
     def __init__(self,raw) -> None:
         rawCoords = raw['geometry']['coordinates']
         self.coords = {
@@ -16,6 +20,16 @@ class Stations:
         }
 
         self.name = raw['properties']['name']
+
+    
+    def setTime(self,time):
+        self.time=time
+    
+    def setRoute(self,route):
+        self.route=route
+
+    def setRouteType(self,type):
+        self.routeType=type
 
     def debug(self):
         print(self.coords)

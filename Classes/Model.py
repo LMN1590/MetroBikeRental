@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
 from BikeDataCache import BikeDataCache
+from TravelTime import TravelTimeProcess
+from Stations import Stations
 
 class Model:
     stationsRaw = BikeDataCache(300)
@@ -32,7 +34,7 @@ class Model:
         Model._modelsList.append(self)
 
 
-    def processReq(self,req):
+    def processReq(self,req,arrivalBool=False):
         Model.dataCheckValid()
         
         if(self.validity==False or self.lastSlot!=req.slots):
@@ -41,8 +43,15 @@ class Model:
             self.lastSlot = req.slots
             self.validity=True
         
-        res = self.predict(req)
-        return res
+        predictions = self.predict(req)
+
+        if (predictions['status']):
+            if(not arrivalBool):
+                TravelTimeProcess.getTimeDep(req, predictions)
+            else:
+                TravelTimeProcess.getTimeArrival(req, predictions)
+            predictions['data'].sort(key=Stations.getTime)
+        return predictions
 
 
     def filterData(self, slots):

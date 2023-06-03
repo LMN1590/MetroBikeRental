@@ -23,17 +23,14 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-#/route/?startLat=34&startLong=-118&endLat=34.2&endLong=-118.5&slots=10
+#http://127.0.0.1:8000/route/?startLat=34&startLong=-118&endLat=34.2&endLong=-118.5&slots=1
 @app.get("/route/")
 async def routing(startLat:float, startLong:float, endLat:float, endLong:float, slots:int):
     req = createRoutingReq(startLat,startLong,endLat,endLong,slots)
     predictions = app.bank.predict(req)
-    locs = outputFormat(predictions)
-    url = urlFormatting(locs)
-    return {
-        'status': predictions['status'],
-        "data": url
-    }
+    return predictions
+
+
 
 def createRoutingReq(startLat:float, startLong:float, endLat:float, endLong:float, slots:int):
     startLoc = {
@@ -66,7 +63,8 @@ def urlFormatting(locs):
 
 
 
-#http://127.0.0.1:8000/find/?reqType=1&lat=33&long=-119&k=5&slots=7
+#http://127.0.0.1:8000/find/?reqType=1&lat=34.035758&long=-118.266344&k=2&slots=1
+#Unreachable: http://127.0.0.1:8000/find/?reqType=1&lat=33.795658&long=-118.266344&k=2&slots=1
 @app.get("/find/")
 async def findStations(reqType:int, lat:float, long:float, slots:int, k:int=10):
     type = requestType[reqType]
