@@ -18,6 +18,7 @@ class ModelBank:
         elif(type == 'routing'):
             res = self.routing(req)
 
+        res['type'] = type
         return res
     
     def routing(self,routeReq):

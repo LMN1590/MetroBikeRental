@@ -26,7 +26,6 @@ class Point2Point:
 
         raw = requests.post(url, headers=header, json = data).text
         raw = json.loads(raw)['results'][0]
-        print(raw)
         unreachable = raw['unreachable']
         if(unreachable == []):
             props = raw['locations'][0]['properties'][0]
