@@ -6,8 +6,8 @@ export default function initMap(){
     var defaultLayers = platform.createDefaultLayers();
 
     var map = new H.Map(document.getElementById('mapContainer'), defaultLayers.vector.normal.map, {
-        center: {lat: 52.496, lng: 13.382},
-        zoom: 11,
+        center: {lat: 34.0485, lng: -118.25854},
+        zoom: 10,
         pixelRatio: window.devicePixelRatio || 1
     });
     window.addEventListener('resize', () => map.getViewPort().resize());

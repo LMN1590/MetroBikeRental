@@ -17,10 +17,10 @@ export default function Query({res,setRes}){
         "Type": 1
     })
     const [route, setRoute] = React.useState({
-        "Starting Latitude": 34,
-        "Starting Longitude": -118,
-        "Ending Latitude": 34.2,
-        "Ending Longitude": -118.5,
+        "Starting Latitude": 34.035458,
+        "Starting Longitude": -118.266344,
+        "Ending Latitude": 34.035758,
+        "Ending Longitude": -118.296344,
         "Slots": 1
     })
     const [index,setIndex] = React.useState(0);
@@ -71,8 +71,8 @@ export default function Query({res,setRes}){
         const func = (index == 0)?getFind:getRoute;
         const curVal = (index == 0)?find:route;
 
-        func(curVal).then((res)=>{
-            console.log(res);
+        func(curVal).then((ret)=>{
+            setRes(ret);
         })
     }
 
