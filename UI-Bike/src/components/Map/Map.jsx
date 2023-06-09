@@ -5,7 +5,6 @@ import "./Map.css"
 import initMap from "../../HEREmap/initmap";
 import createMarker from "../../HEREmap/createMarker";
 
-var map = undefined;
 
 export default function Map({res,setRes}){
     const [markers, setMarkers] = React.useState(undefined);
@@ -15,6 +14,7 @@ export default function Map({res,setRes}){
         try {
             return initMap();
         } catch (error) {
+            console.log(error);
             return undefined;
         }
         
@@ -26,7 +26,6 @@ export default function Map({res,setRes}){
 
     React.useEffect(() => {
         if(res){
-            console.log(res);
             const status = res.status;
             if(!status){
                 alert("Can't find Route");
@@ -42,11 +41,10 @@ export default function Map({res,setRes}){
 
     React.useEffect(() => {
         if(map){
-            console.log(markers);
+
             map.addObjects(markers);
         }
     },[markers])
-
     return(
         <div className="map" id="mapContainer">
             

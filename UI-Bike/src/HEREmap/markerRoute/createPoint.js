@@ -10,23 +10,39 @@ export default function createMarkerRoute(data){
     let markerList = []
 
     const startLocCoord = data.startLoc.coords;
-    const startLoc = execMarker(startLocCoord.lat, startLocCoord.long, startMarkerImg, size.marker);
+    const paramsStart = {
+        "coords": startLocCoord,
+        'name': "Starting Location",
+        'time': 0
+    }
+    const startLoc = execMarker(paramsStart, startMarkerImg, size.marker,true);
 
     const endLocCoord = data.endLoc.coords;
-    const endLoc = execMarker(endLocCoord.lat, endLocCoord.long, endMarkerImg, size.marker);
+    const paramsEnd = {
+        "coords": endLocCoord,
+        'name': "Ending Location",
+        'time': data.startStation.time + data.endStation.time + data.routing.data.time
+    }
+    const endLoc = execMarker(paramsEnd, endMarkerImg, size.marker,true);
 
     markerList.push(startLoc,endLoc);
-    
-    markerList.push(...processLoc(data.startStation), ...processLoc(data.endStation));
+    const toStartStation = data.startStation.time
+    const toEndStation = data.startStation.time + data.routing.data.time
+    markerList.push(...processLoc(data.startStation, toStartStation), ...processLoc(data.endStation, toEndStation));
     markerList.push(...processRoute(data.routing.data.route));
 
     return markerList;
 }
 
-function processLoc(station){
+function processLoc(station, time){
     let markerList = []
-
-    const dest = execMarker(station.coords.lat, station.coords.long, markerImg, size.marker);
+    const params = {
+        'coords': station.coords,
+        'name': station.name,
+        'time': time,
+        'util': station.utilAvailable,
+    }
+    const dest = execMarker(params, markerImg, size.marker,true);
     markerList.push(dest);
 
     const routeParts = station.route;
@@ -42,7 +58,15 @@ function processRoute(route){
     const routeParts = route.parts;
     if(routeParts){
         for (const part of routeParts){
-            const routeMarker = part.coords.map(coord => execMarker(coord.lat, coord.lng, routeImg, size.route));
+            const routeMarker = part.coords.map(coord => {
+                const params = {
+                    'coords':{
+                        'lat': coord.lat,
+                        'long': coord.lng
+                    }
+                }
+                return execMarker(params, routeImg, size.route,false)
+            });
             markerList.push(...routeMarker)
         }
     }

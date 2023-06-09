@@ -9,19 +9,36 @@ import size from '../size/size.json'
 export default function createMarkerFind(data, start){
     let markerList = []
     for(const station of data){
-        
-        const dest = execMarker(station.coords.lat, station.coords.long, marker, size.marker);
+        const params = {
+            'coords': station.coords,
+            'name': station.name,
+            'time': station.time,
+            'util': station.utilAvailable,
+        }
+        const dest = execMarker(params, marker, size.marker, true);
         const routeParts = station.route.parts;
         if(routeParts){
             for (const part of routeParts){
-                const routeMarker = part.coords.map(coord => execMarker(coord.lat, coord.lng, route, size.route));
+                const routeMarker = part.coords.map(coord => {
+                    const params = {
+                        'coords': {
+                            'lat': coord.lat,
+                            'long': coord.lng
+                        }
+                    }
+                    return execMarker(params, route, size.route, false)
+                });
                 markerList.push(...routeMarker)
             }
         }
         markerList.push(dest);
 
     }
-    markerList.push(execMarker(start.lat,start.long,startMarker,size.marker));
+    const params = {
+        'coords': start
+    }
+    markerList.push(execMarker(params,startMarker,size.marker,true));
+
     return markerList;
 }
 

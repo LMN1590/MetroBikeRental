@@ -29,8 +29,8 @@ export default function Query({res,setRes}){
     const findKeys = Object.keys(find);
     const findForm = findKeys.map(el => {
         return (
-            <div key={el}>
-                <label htmlFor={el}>{el}</label>
+            <div key={el} className="ques">
+                <label htmlFor={el}>{el}</label><br/>
                 <input type="number" value={find[el]} onChange={event => {
                     setFind(prev => {
                         const newBody = {
@@ -47,8 +47,8 @@ export default function Query({res,setRes}){
     const routeKeys = Object.keys(route);
     const routeForm = routeKeys.map(el => {
         return (
-            <div key={el}>
-                <label htmlFor={el}>{el}</label>
+            <div key={el} className="ques">
+                <label htmlFor={el}>{el}</label><br/>
                 <input type="number" value={route[el]} onChange={event => {
                     setRoute(prev => {
                         const newBody = {
@@ -94,7 +94,9 @@ export default function Query({res,setRes}){
                 <form action="#">
                     {curForm}
                 </form>
-                <button onClick={execSubmit}>Submit</button>
+                <div className="button">
+                    <button onClick={execSubmit} className="submit">Submit</button>
+                </div>
             </div>
         </div>
     )
