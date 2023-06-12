@@ -4,10 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3006",
     "build": "vite build",
-    "preview": "vite preview",
-    "config": "vite --config vite.config.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "jquery": "^3.7.0",

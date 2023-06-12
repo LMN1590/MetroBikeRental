@@ -1,4 +1,3 @@
-from typing import Union
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -14,16 +13,6 @@ from RoutingReq import RoutingRequest
 
 app = FastAPI()
 app.bank = ModelBank()
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
 
 #http://127.0.0.1:8000/route/?startLat=34&startLong=-118&endLat=34.2&endLong=-118.5&slots=1
 @app.get("/route/")

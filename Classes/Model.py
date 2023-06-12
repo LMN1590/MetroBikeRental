@@ -1,5 +1,3 @@
-import copy
-import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
 from BikeDataCache import BikeDataCache
@@ -51,6 +49,7 @@ class Model:
             else:
                 TravelTimeProcess.getTimeArrival(req, predictions)
             predictions['data'].sort(key=Stations.getTime)
+            print([el.time for el in predictions['data']])
         return predictions
 
 
