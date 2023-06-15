@@ -49,7 +49,6 @@ class Model:
             else:
                 TravelTimeProcess.getTimeArrival(req, predictions)
             predictions['data'].sort(key=Stations.getTime)
-            print([el.time for el in predictions['data']])
         return predictions
 
 

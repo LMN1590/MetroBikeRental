@@ -5,7 +5,7 @@ import './Query.css'
 import getFind from "../../localAPI/getFind/getFind";
 import getRoute from "../../localAPI/getRoute/getRoute";
 
-export default function Query({res,setRes}){
+export default function Query({res,setRes,test,setTest}){
     /////////////////////////////////////////////////////////////////////////////////////
     const findTitle = 'Request/Return Bike';
     const routeTitle = 'Routing'
@@ -96,6 +96,9 @@ export default function Query({res,setRes}){
                 </form>
                 <div className="button">
                     <button onClick={execSubmit} className="submit">Submit</button>
+                </div>
+                <div className="button">
+                    <button onClick={() => setTest(prev => !prev)} className="submit">Test</button>
                 </div>
             </div>
         </div>

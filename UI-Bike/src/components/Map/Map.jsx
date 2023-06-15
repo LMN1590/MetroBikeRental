@@ -4,12 +4,13 @@ import "./Map.css"
 
 import initMap from "../../HEREmap/initmap";
 import createMarker from "../../HEREmap/createMarker";
+import testStation from "../../HEREmap/test";
 
 
-export default function Map({res,setRes}){
+export default function Map({res,setRes,test,setTest}){
     const [markers, setMarkers] = React.useState(undefined);
     const [ready, setReady] = React.useState(false);
-
+    const [testList, setTestList] = React.useState(testStation());
     const map = React.useMemo(()=>{
         try {
             return initMap();
@@ -17,7 +18,6 @@ export default function Map({res,setRes}){
             console.log(error);
             return undefined;
         }
-        
     },[ready])
 
     React.useEffect(() => {
@@ -41,10 +41,20 @@ export default function Map({res,setRes}){
 
     React.useEffect(() => {
         if(map){
-
             map.addObjects(markers);
         }
     },[markers])
+
+    React.useEffect(() => {
+        if(map){
+            if(test){
+                map.addObjects(testList);
+            }
+            else{
+                map.removeObjects(testList);
+            }
+        }
+    },[test])
     return(
         <div className="map" id="mapContainer">
             

@@ -5,7 +5,7 @@ export default function execMarker(params, img, size, prio) {
     var marker = new H.map.Marker({ lat: params.coords.lat, lng: params.coords.long }, { icon: icon });
     let time = 0;
     if(params.time){
-        if(params.time >=3600 ) time = new Date(params.time * 1000).toISOString().substring(11, 16)
+        if(params.time >=3600 ) time = new Date(params.time * 1000).toISOString().substring(11, 19)
         else time = new Date(params.time * 1000).toISOString().substring(14, 19)
     }
     const html =
@@ -16,7 +16,7 @@ export default function execMarker(params, img, size, prio) {
         `: ``) +
         (params.time ? `
         <div class="time">
-            ${time}
+            ${params.time == 14401?'Unreachable':time}
         </div>
         `: ``) +
         (params.util ? `
@@ -30,7 +30,6 @@ export default function execMarker(params, img, size, prio) {
             -  ${params.util.docksAvailable} docks left
         </div>
         `: ``);
-    console.log(html);
     marker.setData(html);
     if (prio) {
         marker.setZIndex(999);
