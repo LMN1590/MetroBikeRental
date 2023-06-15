@@ -1,12 +1,22 @@
-import data from '../data/data.json'
+import $ from 'jquery';
 
-import marker from '/marker.png';
+import markerImg from '/testMarker.png';
 
 import size from './size/size.json';
 
 import execMarker from './execMarker/execMarker'
 
-export default function testStation(){
+function getData(){
+    const URL="https://bikeshare.metro.net/stations/json/";
+
+    return $.get({
+        url: URL,
+        crossDomain: true,
+    });
+}
+
+
+function formatToMarker(data){
     const stations = data.features.map(el => {
         const params = {
             "coords":{
@@ -19,7 +29,15 @@ export default function testStation(){
                 "docksAvailable": el.properties.docksAvailable
             }
         }
-        return execMarker(params, marker, size.marker, true)
+        const marker = execMarker(params, markerImg, size.marker, true);
+        marker.setZIndex(100);
+        return marker;
     })
     return stations;
+}
+
+export default function testStation(){
+    return getData().then(
+        formatToMarker
+    )
 }

@@ -10,7 +10,7 @@ import testStation from "../../HEREmap/test";
 export default function Map({res,setRes,test,setTest}){
     const [markers, setMarkers] = React.useState(undefined);
     const [ready, setReady] = React.useState(false);
-    const [testList, setTestList] = React.useState(testStation());
+    const [testList, setTestList] = React.useState(undefined);
     const map = React.useMemo(()=>{
         try {
             return initMap();
@@ -22,13 +22,16 @@ export default function Map({res,setRes,test,setTest}){
 
     React.useEffect(() => {
         setReady(true);
+        testStation().then(
+            res => setTestList(res)
+        )
     },[])
 
     React.useEffect(() => {
         if(res){
             const status = res.status;
             if(!status){
-                alert("Can't find Route");
+                alert("Can't resolve request");
             }
             else{
                 if(markers){
@@ -47,11 +50,13 @@ export default function Map({res,setRes,test,setTest}){
 
     React.useEffect(() => {
         if(map){
-            if(test){
-                map.addObjects(testList);
-            }
-            else{
-                map.removeObjects(testList);
+            if(testList){
+                if(test){
+                    map.addObjects(testList);
+                }
+                else{
+                    map.removeObjects(testList);
+                }
             }
         }
     },[test])
