@@ -6,9 +6,11 @@
     - Running the frontend:
 	+ Change the working directory to sub-folder UI-Bike
 	    "cd .\UI-Bike\"
-	+ Install Nodejs with npm.
+	+ Install Nodejs and npm.
 	+ Install all the necessary components of the frontend
 	    "npm install"
+	+ Run the website
+	    "npm run dev"
 	+ Access the GUI through the following URL - port can be changed in the package.json file, in the scripts part:
 	    "http://localhost:3006/"
 

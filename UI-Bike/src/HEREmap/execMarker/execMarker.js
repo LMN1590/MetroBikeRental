@@ -16,7 +16,7 @@ export default function execMarker(params, img, size, prio) {
         `: ``) +
         (params.time ? `
         <div class="time">
-            ${params.time == 14401?'Unreachable':time}
+            ${params.time >= 14401?'Unreachable':time}
         </div>
         `: ``) +
         (params.util ? `
