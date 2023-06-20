@@ -12,8 +12,8 @@ class TravelTimeProcess:
         url = 'https://api.traveltimeapp.com/v4/time-filter'
         header = {
             'Content-Type': 'application/json',
-            'X-Application-Id': 'adc8b30b',
-            'X-Api-Key': '6e9546feedbcd404834cc668f976348d'
+            'X-Application-Id': '692368b0',
+            'X-Api-Key': '2c80b96989135ed595d6225e9789cca5'
         }
 
         data = {}
@@ -36,8 +36,8 @@ class TravelTimeProcess:
         url = 'https://api.traveltimeapp.com/v4/time-filter'
         header = {
             'Content-Type': 'application/json',
-            'X-Application-Id': 'adc8b30b',
-            'X-Api-Key': '6e9546feedbcd404834cc668f976348d'
+            'X-Application-Id': '692368b0',
+            'X-Api-Key': '2c80b96989135ed595d6225e9789cca5'
         }
 
         data = {}
@@ -45,6 +45,7 @@ class TravelTimeProcess:
         data['arrival_searches'] = TravelTimeProcess.generateArriveSearch(stationList)
 
         raw = requests.post(url, headers=header, json = data).text
+        print(raw)
         raw = json.loads(raw)['results'][0]
 
         locations = raw['locations']
