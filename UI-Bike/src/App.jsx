@@ -6,7 +6,6 @@ import Map from "./components/Map/Map";
 import './App.css'
 
 export default function App(){
-
     const [res,setRes] = React.useState(undefined);
     const [testBool,setTest] = React.useState(false);
     return (

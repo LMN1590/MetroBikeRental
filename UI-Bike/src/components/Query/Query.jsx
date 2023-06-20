@@ -73,7 +73,9 @@ export default function Query({res,setRes,test,setTest}){
 
         func(curVal).then((ret)=>{
             setRes(ret);
-        })
+        }).catch(err=>{
+            alert("Can't find location");
+        });
     }
 
 
