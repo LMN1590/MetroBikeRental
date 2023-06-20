@@ -45,7 +45,6 @@ class TravelTimeProcess:
         data['arrival_searches'] = TravelTimeProcess.generateArriveSearch(stationList)
 
         raw = requests.post(url, headers=header, json = data).text
-        print(raw)
         raw = json.loads(raw)['results'][0]
 
         locations = raw['locations']
